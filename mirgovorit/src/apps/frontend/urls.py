@@ -1,6 +1,8 @@
 from django.urls import path, include
-from .views import main
+from .views import homepage, show_recipes_without_product
 
 urlpatterns = [  
-   path('', main, name='main'), 
+   path('', homepage, name='homepage'),
+   path('table/<int:product_id>', show_recipes_without_product, name='table'),
+
 ]
