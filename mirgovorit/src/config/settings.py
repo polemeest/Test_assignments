@@ -1,5 +1,7 @@
-import os
 import environ
+import os
+
+from pathlib import Path
 from datetime import timedelta
 
 # Implicit env variables
@@ -27,17 +29,17 @@ env = environ.Env(
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env_dev'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['dbms_template_domain', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:80', 'http://localhost:8000']
@@ -58,6 +60,8 @@ INSTALLED_APPS = [
 
     # dev
     'apps.users',
+    'apps.cook_book',
+    'apps.frontend',
 
     # third party
     'rest_framework',
@@ -139,16 +143,28 @@ CHANNEL_LAYERS = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT'),
+'''
+I will use SqLite here cause it's simple test project
+'''
+
+if env:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('POSTGRES_DB'),
+            'USER': env('POSTGRES_USER'),
+            'PASSWORD': env('POSTGRES_PASSWORD'),
+            'HOST': env('POSTGRES_HOST'),
+            'PORT': env('POSTGRES_PORT'),
+        }
+    }
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -202,10 +218,10 @@ SPECTACULAR_SETTINGS = {
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 8 * 1024 * 1024
 
