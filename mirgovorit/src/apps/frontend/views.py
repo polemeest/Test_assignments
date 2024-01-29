@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpRequest
 from django.db.models import Q
 
 from apps.cook_book.models import Recipe
-
+from config.settings import LOGIN_URL, LOGOUT_URL
 
 # Create your views here.
 def show_recipes_without_product(request: HttpRequest, product_id: int) -> HttpResponse:
@@ -14,7 +14,9 @@ def show_recipes_without_product(request: HttpRequest, product_id: int) -> HttpR
     filtered_recipes = Recipe.objects.filter(
         ~Q(recipeproduct__product_id=product_id) | 
         Q(recipeproduct__amount__lt=10)).distinct()
-    return render(request, 'frontend/index.html', {'filtered_recipes': filtered_recipes})
+    return render(request, 'frontend/index.html', {'filtered_recipes': filtered_recipes,
+                                                   'login': LOGIN_URL,
+                                                   'logout': LOGOUT_URL})
 
 
 def homepage(request: HttpRequest) -> HttpResponse:
