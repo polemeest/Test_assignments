@@ -23,6 +23,8 @@ class Recipe(models.Model):
                             blank=False, unique=True)
     product = models.ManyToManyField(Product, through='RecipeProduct', verbose_name='продукты',
                                      null=False, blank=False, related_name='products')
+    created_at = models.DateTimeField(verbose_name='дата создания', auto_now_add=True,
+                                      null=False, blank=False)
     
     def __str__(self) -> str:
         return f'{self.name}'
@@ -40,5 +42,4 @@ class RecipeProduct(models.Model):
     amount = models.PositiveIntegerField(verbose_name='вес в граммах', null=False, blank=False)
 
     def __str__(self) -> str:
-        # return f'{" + ".join([prod.name for prod in self.recipe.product.all()])}'
         return f'{self.product} - {self.amount}'
