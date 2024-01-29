@@ -1,7 +1,7 @@
 #!/bin/bash
 base_python_interpreter=""
 project_domain=""
-project_path=`pwd`
+project_path=""
 
 read -p "Python interpreter: " base_python_interpreter
 read -p "Your domain without protocol (for example, google.com): " project_domain
