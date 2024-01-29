@@ -8,7 +8,7 @@ try:
 except ImportError:
     print("Can't find path to BASE DIR.")
 
-INPUT_PHRASE = 'Please, input the name of your apps folder or leave it empty'
+INPUT_PHRASE = 'Please, input the name of your apps folder or leave it empty: '
 
 
 def concatenate_paths(path: str) -> Optional[str]:

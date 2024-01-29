@@ -18,3 +18,4 @@
 */env/
 */src/.env_dev
 */src/apps/*/migrations/0*
+*/src/*.sqlite3

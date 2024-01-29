@@ -5,7 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, email: str, phone: str = Optional[str], password: Optional[str] = None,
+    def _create_user(self, email: str, phone: Optional[str] = None, password: Optional[str] = None,
                      first_name: str = "Имя", last_name: str = "Фамилия", user_type: Optional[str] = None, 
                      **extra_fields):
         """
@@ -18,7 +18,6 @@ class UserManager(BaseUserManager):
             raise ValueError('Password is required')
 
         email = self.normalize_email(email) if email else None
-
         user = self.model(
             email=email,
             phone=phone,
@@ -32,11 +31,12 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser'):
             user.is_staff = True
             user.is_active = True
+            user.user_type = 'Admin'
         else:
             if not user_type:
                 raise ValueError('user_type is required')
 
-            if user_type not in ("User", "Agent", "Agency"):
+            if user_type not in ("User", "Admin"):
                 raise ValueError('user_type is invalid')
 
         user.set_password(password)

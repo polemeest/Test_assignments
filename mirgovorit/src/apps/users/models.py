@@ -6,17 +6,19 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.db.models import Avg
+from django.utils.translation import gettext_lazy as _
 
 from apps.users.manager import UserManager
 from phonenumber_field.modelfields import PhoneNumberField
 
-USER_TYPE_CHOICES = (
-    ("User", "Пользователь"),
-    ("Agent", "Агент"),
-    ("Agency", "Агентство"),
-)
 
 class User(AbstractBaseUser, PermissionsMixin):
+    ''' Хранит все данные о пользователях '''
+    class UserTypeChoices(models.TextChoices):
+        ''' Выбор типов пользователя для пользователя '''
+        User = "User", _("Пользователь")
+        Admin = "Admin", _("Админ")
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(verbose_name="email", unique=True, null=True, blank=True)
     phone = PhoneNumberField(null=True, blank=True, max_length=17)
@@ -57,10 +59,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     user_type = models.CharField(
         verbose_name="Тип пользователя",
-        choices=USER_TYPE_CHOICES,
+        choices=UserTypeChoices,
         max_length=50,
         null=True,
         blank=True,
+        default=UserTypeChoices.User
     )
 
     objects = UserManager()
@@ -68,12 +71,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
-
     def __str__(self):
-        return str(self.phone) if self.phone else self.email
+        return f'{self.first_name} - {str(self.phone) if self.phone else self.email}'
 
     def get_full_name(self):
         """
@@ -82,10 +81,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         full_name = f"{self.first_name} {self.last_name}"
         return full_name.strip()
 
-    @property
-    def avg_rating(self) -> Union[float, None]:
-        """
-        Дескриптор данных для получения среднего
-        рейтинга пользователя по его отзывам
-        """
-        return self.user_feedback.aggregate(Avg("rating")).get("rating__avg", None)
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
+
