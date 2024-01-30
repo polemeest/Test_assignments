@@ -4,6 +4,8 @@ from django.utils.html import format_html
 from .models import Product, Recipe, RecipeProduct
 
 # Register your models here.
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     ''' Представление для продуктов в панели администратора '''
@@ -20,7 +22,8 @@ class RecipeAdminForm(forms.ModelForm):
     ''' Необходимо, чтобы убрать лишнее поле из модели в панели администратора'''
     class Meta:
         model = Recipe
-        exclude = ['product']  
+        exclude = ['product']
+
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
@@ -34,6 +37,4 @@ class RecipeAdmin(admin.ModelAdmin):
         return format_html(',<br>'.join(prods))
     products_list_display.short_description = 'Продукты'  # Column header in the list display
 
-    list_display = ('name', 'products_list_display', 'id') 
-
-
+    list_display = ('name', 'products_list_display', 'id')

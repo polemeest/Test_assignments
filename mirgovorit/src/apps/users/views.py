@@ -17,7 +17,7 @@ class UserListView(ListAPIView):
         else:
             return UserSerializer('email', 'phone', 'first_name', 'last_name', 'created_at',
                                   'balance', 'mail_confirmed', 'phone_confirmed', 'user_type')
-    
+
     def get_queryset(self) -> QuerySet:
         ''' gets none and returns queryset depending on a type of user '''
         if self.request.user.is_superuser:

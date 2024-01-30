@@ -1,6 +1,7 @@
 from apps.dynamic_serializer import DynamicFieldsModelSerializer
 from .models import Recipe, Product
 
+
 class RecipeSerializer(DynamicFieldsModelSerializer):
     ''' Сериализует данные модели рецептов. '''
 
