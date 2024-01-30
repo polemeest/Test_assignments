@@ -1,11 +1,8 @@
 from django.db import models
 import uuid
-from typing import Union
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.db import models
-from django.db.models import Avg
 from django.utils.translation import gettext_lazy as _
 
 from apps.users.manager import UserManager
@@ -81,8 +78,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         full_name = f"{self.first_name} {self.last_name}"
         return full_name.strip()
 
-
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
-

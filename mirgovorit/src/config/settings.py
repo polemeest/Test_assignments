@@ -17,15 +17,15 @@ env = environ.Env(
     POSTGRES_HOST=str,
     POSTGRES_PORT=int,
 
-    REDIS_HOST = str,
-    REDIS_PORT = int,
+    REDIS_HOST=str,
+    REDIS_PORT=int,
 
-    CELERY_TIMEZONE =str,
-    CELERY_BROKER_URL = str,
-    CELERY_RESULT_BACKEND = str,
-    CELERY_ACCEPT_CONTENT = str,
-    CELERY_TASK_SERIALIZER = str,
-    CELERY_RESULT_SERIALIZER = str,
+    CELERY_TIMEZONE=str,
+    CELERY_BROKER_URL=str,
+    CELERY_RESULT_BACKEND=str,
+    CELERY_ACCEPT_CONTENT=str,
+    CELERY_TASK_SERIALIZER=str,
+    CELERY_RESULT_SERIALIZER=str,
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 ROOT_URLCONF = 'config.urls'
 
-## Internationalization
+# Internationalization
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -120,7 +120,7 @@ ASGI_APPLICATION = 'config.asgi.application'
 REDIS_HOST = env('REDIS_HOST')
 REDIS_PORT = env('REDIS_PORT')
 
-CELERY_TIMEZONE = TIME_ZONE 
+CELERY_TIMEZONE = TIME_ZONE
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 CELERY_ACCEPT_CONTENT = [env('CELERY_ACCEPT_CONTENT')]

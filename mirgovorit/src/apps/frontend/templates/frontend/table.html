@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Filtered Recipes</title>
+{% endblock title %}
+
+{% block additional_styles %}
+<style>
+    .return-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 25px;
+    }
+
+    .return-button button {
+        position: absolute;
+        left: 50%;
+        width: 100px;
+        height: 25px;
+    }
+</style>
+{% endblock additional_styles %}
+
+{% block h1_out %}
+<h1>Filtered Recipes</h1>
+{% endblock h1_out %}
+
+
+{% block h1_in %}
+<h1>Filtered Recipes</h1>
+{% endblock h1_in %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Recipe ID</th>
+            <th>Recipe Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for recipe in filtered_recipes %}
+            <tr>
+                <td>{{ recipe.id }}</td>
+                <td>{{ recipe.name }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'homepage' %}" class="return-button">
+    <button type="button">На главную</button>
+</a>
+{% endblock content %}

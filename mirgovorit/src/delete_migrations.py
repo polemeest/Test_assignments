@@ -1,7 +1,6 @@
 ''' модуль для django, предназначенный для удаления файлов миграций'''
 import os
 from typing import Optional
-from manage import *
 
 try:
     from config.settings import BASE_DIR
@@ -14,7 +13,7 @@ INPUT_PHRASE = 'Please, input the name of your apps folder or leave it empty: '
 def concatenate_paths(path: str) -> Optional[str]:
     ''' Handles the BASE_DIR and additional path concatenation or asks for a BASE_DIR path '''
     try:
-         return os.path.join(BASE_DIR, path)
+        return os.path.join(BASE_DIR, path)
     except NameError:
         try:
             return os.path.join(input('enter path to "config.settings"'), path)
@@ -47,4 +46,3 @@ def clear_all_migrations(additional_path: str = '') -> None:
 if __name__ == '__main__':
     clear_all_migrations(input(INPUT_PHRASE))
     print('SUCCESS: УСПЕШНО ЗАВЕРШЕНО')
-
