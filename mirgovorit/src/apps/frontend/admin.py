@@ -3,7 +3,7 @@ from .models import PageUrl
 # Register your models here.
 
 
-@admin.register
-class PageUrlAdmin(PageUrl):
+@admin.register(PageUrl)
+class PageUrlAdmin(admin.ModelAdmin):
     """ Представление в панели администратора """
     list_display = ("name", "url", "id")

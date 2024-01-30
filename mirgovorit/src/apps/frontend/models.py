@@ -10,7 +10,6 @@ class PageUrl(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} --- {self.url}"
-    
     class Meta:
         verbose_name = "Страница"
         verbose_name_plural = "Страницы"

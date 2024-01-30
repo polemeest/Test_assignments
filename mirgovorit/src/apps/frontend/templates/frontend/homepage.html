@@ -87,6 +87,7 @@
             {% csrf_token %}
             {{ form.product }}
             <br>
+            <input type="hidden" name="unsafe" value="True" />
             <input type="hidden" name="func" value="show" />
             <button type="submit">Показать</button>
         </form>       
