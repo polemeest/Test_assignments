@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Main</title>
+{% endblock title %}
+
+{% block additional_styles %}
+.centered-container {
+    width: 700px;
+    height: 600px;
+    margin: 0 auto;
+    border: 2px solid black;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    padding: 20px;
+}
+
+.centered-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.centered-form > * {
+    margin: 5px;
+    align-items: center;
+}
+
+.separator-line {
+    width: 650px;
+    height: 2px;
+    background-color: black;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Add shadow */
+    margin: 20px 0; /* Adjust margin as needed */
+}
+
+{% endblock additional_styles %}
+
+{% block h1_out %}
+<h1>Form input</h1>
+{% endblock h1_out %}
+
+{% block h1_in %}
+<h1>Form input</h1>
+{% endblock h1_in %}
+
+{% block content %}
+
+{% if errors %}
+    <div class="form-errors">
+        <p style="color: red;">There are errors in the form:</p>
+        <ul>
+            {% for field, error_list in errors.items %}
+                {% for error in error_list %}
+                    <li>{{ field }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <div class="centered-container">
+        <h2>Добавить продукт к рецепту</h2>
+        <h3 style="color: green;"> {{ extra }} </h3>
+        <form action="{% url 'homepage' %}" method="post" class="centered-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="func" value="add_to_recipe" />
+            <button type="submit">Добавить</button>
+        </form>
+
+        <div class="separator-line"></div>
+
+        <h2>Приготовить рецепт</h2>
+        <form action="{% url 'homepage' %}" method="post" class="centered-form">
+            {% csrf_token %}
+            {{ form.recipe }}
+            <br>
+            <input type="hidden" name="func" value="cook_recipe" />
+            <button type="submit">Приготовить</button>
+        </form>
+
+        <div class="separator-line"></div>
+
+        <h2>Показать таблицу по рецепту</h2>
+        <form action="{% url 'homepage' %}" method="post" class="centered-form">
+            {% csrf_token %}
+            {{ form.product }}
+            <br>
+            <input type="hidden" name="unsafe" value="True" />
+            <input type="hidden" name="func" value="show" />
+            <button type="submit">Показать</button>
+        </form>       
+    </div>
+
+    
+{% endif %}
+{% endblock content %}

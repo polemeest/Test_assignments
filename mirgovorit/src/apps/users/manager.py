@@ -6,7 +6,7 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, email: str, phone: Optional[str] = None, password: Optional[str] = None,
-                     first_name: str = "Имя", last_name: str = "Фамилия", user_type: Optional[str] = None, 
+                     first_name: str = "Имя", last_name: str = "Фамилия", user_type: Optional[str] = None,
                      **extra_fields):
         """
         Creates and saves a User with the given email or phone and password.
@@ -43,8 +43,8 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email: Optional[str] = None, phone: Optional[str] = None, password: Optional[str] = None, 
-                    first_name: str ="Имя", last_name="Фамилия", user_type: Optional[str] = None, **extra_fields):
+    def create_user(self, email: Optional[str] = None, phone: Optional[str] = None, password: Optional[str] = None,
+                    first_name: str = "Имя", last_name="Фамилия", user_type: Optional[str] = None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(
             email=email,
