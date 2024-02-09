@@ -12,7 +12,7 @@ class AddProductForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         if (not cleaned_data.get('recipe') or not cleaned_data.get('product')) \
-                and self.data['func'] != 'show':
+                and self.data['func'] not in ('show', 'cook_recipe'):
             empty = ('recipe', 'product')[bool(cleaned_data['recipe'])]
             raise forms.ValidationError({empty: "Нужно выбрать один из вариантов"})
         return cleaned_data

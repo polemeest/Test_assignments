@@ -5,6 +5,7 @@ import logging
 
 from config.settings import BASE_DIR
 from datetime import datetime
+from django.db.models import F
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -82,15 +83,15 @@ def add_product_to_recipe(recipe_id: int, product_id: int,
     change_recipe(model, product_id, weight)
 
 
-def raise_cooking_amount(recipe: Recipe) -> None:
-    """ Принимает id рецепта, и увеличивает популярность продуктов, в составе на 1. """
-    for prod in recipe.product.all():
-        prod.used += 1
-        prod.save()
+# def raise_cooking_amount(recipe: Recipe) -> None:
+#     """ Принимает id рецепта, и увеличивает популярность продуктов, в составе на 1. """
+#     for prod in recipe.product.all():
+#         prod.used += 1
+#         prod.save()
 
 
-def cook_recipe(recipe_id: int) -> None:
+def raise_cooking_amount(recipe_id: int) -> None:
     """ Функция увеличивает на единицу количество приготовленных блюд для каждого продукта,
     входящего в указанный рецепт. """
-    model = get_recipe_model(recipe_id)
-    raise_cooking_amount(model)
+    model: Recipe = get_recipe_model(recipe_id)
+    model.product.all().update(used=F('used') + 1)

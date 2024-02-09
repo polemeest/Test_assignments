@@ -5,7 +5,7 @@ from django.forms import Form
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from apps.cook_book.services import add_product_to_recipe, cook_recipe
+from apps.cook_book.services import add_product_to_recipe, raise_cooking_amount
 
 
 def process_main_post(request: HttpRequest, raw_form: Form) -> HttpResponse:
@@ -20,7 +20,7 @@ def process_main_post(request: HttpRequest, raw_form: Form) -> HttpResponse:
                 return render(request, 'frontend/homepage.html',
                               {'extra': extra, 'form': raw_form}) if res is None else res
             case 'cook_recipe':
-                res = cook_recipe(form.cleaned_data['recipe'].id)
+                res = raise_cooking_amount(form.cleaned_data['recipe'].id)
                 extra = f'Приготовили {form.cleaned_data['recipe'].name}'
                 return render(request, 'frontend/homepage.html',
                               {'extra': extra, 'form': raw_form}) if res is None else res
