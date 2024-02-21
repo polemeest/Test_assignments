@@ -41,7 +41,7 @@ class RecipeProduct(models.Model):
     ''' Хранит связь между продуктом и рецептом. '''
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, null=False, blank=False)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING, null=False, blank=False)
-    amount = models.PositiveIntegerField(verbose_name='вес в граммах', null=False, blank=False)
+    amount = models.PositiveIntegerField(verbose_name='вес в граммах', null=False, blank=False, default=1)
 
     def __str__(self) -> str:
         return f'{self.product} - {self.amount}'

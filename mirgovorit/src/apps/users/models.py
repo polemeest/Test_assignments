@@ -17,7 +17,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         Admin = "Admin", _("Админ")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(verbose_name="email", unique=True, null=True, blank=True)
+    email = models.EmailField(verbose_name="email", unique=True, null=True,
+                              blank=True)
     phone = PhoneNumberField(null=True, blank=True, max_length=17)
     first_name = models.CharField(
         verbose_name="Имя", max_length=255, blank=False, null=False
@@ -28,11 +29,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     patronymic = models.CharField(
         verbose_name="Отчество", max_length=255, blank=True, null=True
     )
-    created_at = models.DateTimeField(verbose_name="Время создания", auto_now_add=True)
+    created_at = models.DateTimeField(verbose_name="Время создания",
+                                      auto_now_add=True)
     is_active = models.BooleanField(verbose_name="Активный", default=True)
     is_staff = models.BooleanField(verbose_name="Персонал", default=False)
     is_superuser = models.BooleanField(verbose_name="Админ", default=False)
-    is_verified = models.BooleanField(verbose_name="Верифицирован", default=False)
+    is_verified = models.BooleanField(verbose_name="Верифицирован",
+                                      default=False)
     balance = models.DecimalField(
         verbose_name="Баланс",
         max_digits=100,
@@ -69,7 +72,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return f'{self.first_name} - {str(self.phone) if self.phone else self.email}'
+        return f'{self.first_name} - {str(self.phone) if self.phone
+                                      else self.email}'
 
     def get_full_name(self):
         """

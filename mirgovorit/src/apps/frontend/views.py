@@ -10,17 +10,19 @@ from .services import process_main_post
 
 
 # Create your views here.
-def show_recipes_without_product(request: HttpRequest, product_id: int) -> HttpResponse:
+def show_recipes_without_product(request: HttpRequest, product_id: int) -> \
+                                                                HttpResponse:
     """ Функция возвращает HTML страницу, на которой размещена таблица.
-    В таблице отображены id и названия всех рецептов, в которых указанный продукт отсутствует,
-    или присутствует в количестве меньше 10 грамм. Страница должна генерироваться с использованием Django templates.
-    Качество HTML верстки не оценивается. """
+    В таблице отображены id и названия всех рецептов, в которых указанный
+    продукт отсутствует, или присутствует в количестве меньше 10 грамм.
+    Страница должна генерироваться с использованием Django templates. """
     filtered_recipes = Recipe.objects.filter(
         ~Q(recipeproduct__product_id=product_id) |
         Q(recipeproduct__amount__lt=10)).distinct()
-    return render(request, "frontend/table.html", {"filtered_recipes": filtered_recipes,
-                                                   "login": LOGIN_URL,
-                                                   "logout": LOGOUT_URL})
+    return render(request, "frontend/table.html",
+                  {"filtered_recipes": filtered_recipes,
+                   "login": LOGIN_URL,
+                   "logout": LOGOUT_URL})
 
 
 def homepage(request: HttpRequest) -> HttpResponse:
