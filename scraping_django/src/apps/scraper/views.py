@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAdminUser
 
 from .serializers import KeywordsSerializer, ScrapedDataSerializer
 from .models import Keywords, ScrapedData
+from .services import send_request
 
 
 class ShowDataApiView(APIView):
@@ -23,6 +24,12 @@ class ShowDataApiView(APIView):
 
 class SendRequestToResourse(APIView):
     """Sends request to the presetted resourse."""
+    permission_classes = [IsAdminUser]
+    serializer_class = KeywordsSerializer
+    queryset = Keywords.objects.all()
+    
+    def post(self, request, *args, **kwargs):
+        return send_request(request, self.serializer_class, self.queryset)
 
     
 

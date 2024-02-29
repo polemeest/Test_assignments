@@ -11,3 +11,4 @@ from .models import Keywords, ScrapedData
 
 def send_request(request: HttpRequest, serializer: KeywordsSerializer,
                  queryset: QuerySet)
+    """Takes keywords from request POST method, """
