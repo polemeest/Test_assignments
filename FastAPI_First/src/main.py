@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from datetime import datetime
 from enum import StrEnum
+from typing import Any
 
-from .models import Lovers
+from models.pydantic import Lovers
+
 
 
 app = FastAPI()
@@ -19,6 +21,23 @@ async def root():
 @app.get("/today")
 async def show_current_date() -> str:
     return datetime.strftime(datetime.now(), "%d/%m/%Y, %H:%M:%S")
+
+
+@app.get("/lovers")
+async def get_lovers(
+    lover: Lovers | None = Lovers(name="Denis", action="kisses_Eva"), 
+    another: Lovers | None = Lovers(name="Eva", action="kisses Denis")) -> str:    
+    return f"{lover}, {another}"
+
+
+@app.post("/lovers")
+async def post_lovers(lover: Lovers) -> str | Lovers | None:
+    return lover
+
+
+@app.put("/lovers/{lover_id}")
+async def get_lovers_id(lover_id: int, lover: Lovers) -> dict[str, Any]:
+    return {"id": lover_id, "lover": lover.model_dump()}
 
 
 @app.get("/{number}")
@@ -45,7 +64,3 @@ async def queries(some: str,
     return f"{some}, {query}, {query2}, {query3}"
 
 
-@app.get("/lovers")
-async def get_lovers() -> str:
-    return f"{Lovers(name="Denis", action="kisses_Eva")}, \
-        {Lovers(name="Eva", action="kisses Denis")}"
