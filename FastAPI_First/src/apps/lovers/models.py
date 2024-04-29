@@ -23,5 +23,5 @@ class Action(Base):
     description = Column(Text, index=True)
     lover_id = Column(SmallInteger, ForeignKey("lovers.id"))
 
-    lover = relationship("Lover", back_populates="action")
+    lover = relationship("Lover", back_populates="actions")
 
